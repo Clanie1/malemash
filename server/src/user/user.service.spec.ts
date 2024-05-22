@@ -30,6 +30,7 @@ describe('UserService', () => {
     prismaMock.user.create.mockResolvedValue(user);
     prismaMock.user.findUnique.mockResolvedValue(user);
     prismaMock.user.update.mockResolvedValue({ ...user, elo: 1600 });
+    prismaMock.user.findMany.mockResolvedValue([user]);
   });
 
   it('should create a new user with 1500 elo', async () => {
@@ -59,5 +60,10 @@ describe('UserService', () => {
     expect(user.id).toBe(1);
     expect(user.email).toBe('test@gmail.com');
     expect(user.elo).toBe(1600);
+  });
+
+  it('should return top users', async () => {
+    const topUsers = await service.getTopUsers();
+    expect(topUsers.length).toBe(1);
   });
 });

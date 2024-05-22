@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { RateUsersDto } from './dto/rate-users.dto';
 
@@ -14,5 +14,10 @@ export class RatingController {
       author: { connect: { id: rateUsersDto.authorId } },
       whoWon: { connect: { id: rateUsersDto.selectedUserId } },
     });
+  }
+
+  @Get('/latest')
+  async getLatestRatings() {
+    return this.ratingService.getLatestRatings();
   }
 }

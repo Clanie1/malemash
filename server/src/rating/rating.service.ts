@@ -16,6 +16,13 @@ export class RatingService {
     return rating;
   }
 
+  async getLatestRatings(): Promise<Rating[]> {
+    return this.prisma.rating.findMany({
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   private async calculateNewEloForPlayers(rating: Rating) {
     const user1 = await this.userService.findUnique({
       where: { id: rating.user1Id! },
@@ -55,7 +62,7 @@ export class RatingService {
     won: boolean,
   ): number {
     const kFactor = 24;
-    return playerElo + kFactor * (won ? 1 : 0 - probabilityToWin);
+    return playerElo + kFactor * ((won ? 1 : 0) - probabilityToWin);
   }
 
   private calculateProbabilityOfPlayer1Winning(
