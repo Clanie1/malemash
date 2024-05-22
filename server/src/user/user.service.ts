@@ -35,6 +35,10 @@ export class UserService {
       take: usersToTake,
       skip: Math.floor(Math.random() * (userCount - usersToTake)),
     });
+
+    if (foundUsers.length === 0) {
+      return [];
+    }
     const randomUser = foundUsers[0];
 
     // pick a user close to the foundUsers elo

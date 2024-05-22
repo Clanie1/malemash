@@ -66,4 +66,68 @@ describe('UserService', () => {
     const topUsers = await service.getTopUsers();
     expect(topUsers.length).toBe(1);
   });
+
+  describe('getUsersToRate', () => {
+    it('should return a pair of users to rate', async () => {
+      const user1 = {
+        id: 1,
+        email: 'test1@gmail.com',
+        elo: 1500,
+        name: 'test1',
+      };
+      const user2 = {
+        id: 2,
+        email: 'test2@gmail.com',
+        elo: 1520,
+        name: 'test2',
+      };
+
+      prismaMock.user.count.mockResolvedValue(2);
+      prismaMock.user.findMany.mockResolvedValue([user1]);
+      prismaMock.user.findFirst.mockResolvedValue(user2);
+
+      const usersToRate = await service.getUsersToRate(1);
+
+      expect(usersToRate.length).toBe(2);
+      expect(usersToRate).toContainEqual(user1);
+      expect(usersToRate).toContainEqual(user2);
+    });
+
+    it('should increase range if no user found in initial range', async () => {
+      const user1 = {
+        id: 1,
+        email: 'test1@gmail.com',
+        elo: 1500,
+        name: 'test1',
+      };
+      const user3 = {
+        id: 3,
+        email: 'test3@gmail.com',
+        elo: 1700,
+        name: 'test3',
+      };
+
+      prismaMock.user.count.mockResolvedValue(3);
+      prismaMock.user.findMany.mockResolvedValue([user1]);
+      prismaMock.user.findFirst
+        .mockResolvedValueOnce(null) // first attempt with range 1
+        .mockResolvedValueOnce(null) // second attempt with range 2
+        .mockResolvedValueOnce(user3); // third attempt with range 3
+
+      const usersToRate = await service.getUsersToRate(1);
+
+      expect(usersToRate.length).toBe(2);
+      expect(usersToRate).toContainEqual(user1);
+      expect(usersToRate).toContainEqual(user3);
+    });
+
+    it('should return empty array if no users found', async () => {
+      prismaMock.user.count.mockResolvedValue(0);
+      prismaMock.user.findMany.mockResolvedValue([]);
+
+      const usersToRate = await service.getUsersToRate(1);
+
+      expect(usersToRate.length).toBe(0);
+    });
+  });
 });
