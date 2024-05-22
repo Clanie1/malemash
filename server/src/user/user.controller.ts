@@ -23,4 +23,9 @@ export class UserController {
   async getTopUsers() {
     return this.userService.getTopUsers();
   }
+
+  @Get('/users-to-rate/:myId')
+  async getUsersToRate(@Param() myId: number) {
+    return this.userService.getUsersToRate(myId);
+  }
 }
