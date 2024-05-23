@@ -37,6 +37,7 @@ describe('RatingController', () => {
       email: 'test@gmail.com',
       elo: 1500,
       name: 'test',
+      image: '',
     };
 
     const user2 = {
@@ -44,6 +45,7 @@ describe('RatingController', () => {
       email: 'test2@gmail.com',
       elo: 1500,
       name: 'test2',
+      image: '',
     };
 
     const user3 = {
@@ -51,6 +53,7 @@ describe('RatingController', () => {
       email: 'test3@gmail.com',
       elo: 1500,
       name: 'test3',
+      image: '',
     };
 
     prismaMock.rating.create.mockResolvedValue(rating);

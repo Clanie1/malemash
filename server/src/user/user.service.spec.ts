@@ -25,6 +25,7 @@ describe('UserService', () => {
       email: 'test@gmail.com',
       elo: 1500,
       name: 'test',
+      image: '',
     };
 
     prismaMock.user.create.mockResolvedValue(user);
@@ -74,12 +75,14 @@ describe('UserService', () => {
         email: 'test1@gmail.com',
         elo: 1500,
         name: 'test1',
+        image: '',
       };
       const user2 = {
         id: 2,
         email: 'test2@gmail.com',
         elo: 1520,
         name: 'test2',
+        image: '',
       };
 
       prismaMock.user.count.mockResolvedValue(2);
@@ -99,12 +102,14 @@ describe('UserService', () => {
         email: 'test1@gmail.com',
         elo: 1500,
         name: 'test1',
+        image: '',
       };
       const user3 = {
         id: 3,
         email: 'test3@gmail.com',
         elo: 1700,
         name: 'test3',
+        image: '',
       };
 
       prismaMock.user.count.mockResolvedValue(3);

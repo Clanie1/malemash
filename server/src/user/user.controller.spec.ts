@@ -10,6 +10,7 @@ const user = {
   email: 'test@gmail.com',
   elo: 1500,
   name: 'test',
+  image: '',
 };
 
 describe('UserController', () => {

@@ -14,18 +14,18 @@ export class UserController {
     });
   }
 
-  @Get('/:id')
-  async getUser(@Param('id') id: string) {
-    return this.userService.findUnique({ where: { id: parseInt(id) } });
-  }
-
   @Get('/top')
   async getTopUsers() {
     return this.userService.getTopUsers();
   }
 
   @Get('/users-to-rate/:myId')
-  async getUsersToRate(@Param() myId: number) {
-    return this.userService.getUsersToRate(myId);
+  async getUsersToRate(@Param('myId') myId: string) {
+    return this.userService.getUsersToRate(Number(myId));
+  }
+
+  @Get('/:id')
+  async getUser(@Param('id') id: string) {
+    return this.userService.findUnique({ where: { id: parseInt(id) } });
   }
 }

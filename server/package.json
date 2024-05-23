@@ -70,6 +70,15 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/user/user.module.ts",
+      "<rootDir>/user/test.ts",
+      "<rootDir>/user/test.js",
+      "<rootDir>/rating/rating.module.ts",
+      "<rootDir>/app.module.ts",
+      "<rootDir>/index.ts",
+      "<rootDir>/main.ts"
+    ]
   }
 }
