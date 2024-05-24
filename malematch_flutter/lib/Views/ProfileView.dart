@@ -12,41 +12,54 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(150),
+              child: Image.network(
+                'https://media.licdn.com/dms/image/D5603AQFmH4WZgKO7yw/profile-displayphoto-shrink_800_800/0/1674516297228?e=2147483647&v=beta&t=NUMzuaY5RSKJhlLKnI1NNFut3owgux9Ty_M7uFatEc0',
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+              ),
+            ),
+            SizedBox(height: 20),
+            const Text(
+              "Daniel Barocio",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              '1500 ELO',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            const Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(150),
-                        child: Image.network(
-                          'https://media.licdn.com/dms/image/D5603AQFmH4WZgKO7yw/profile-displayphoto-shrink_800_800/0/1674516297228?e=2147483647&v=beta&t=NUMzuaY5RSKJhlLKnI1NNFut3owgux9Ty_M7uFatEc0',
-                          fit: BoxFit.cover,
-                          width: 100,
-                          height: 100,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Daniel Barocio",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text('1500 ELO'),
-                      ],
-                    )
+                    Icon(Icons.check, color: Colors.green),
+                    Text('Player 1'),
+                    Text(' VS '),
+                    Text('Player 2'),
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Player 1'),
+                    Text(' VS '),
+                    Text('Player 2'),
+                    Icon(Icons.check,
+                        color: Colors.green), // Replace with the winner's mark
+                  ],
+                ),
               ],
             ),
           ],
