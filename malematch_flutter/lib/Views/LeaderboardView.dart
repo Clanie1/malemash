@@ -58,8 +58,11 @@ class _LeaderboardViewState extends State<LeaderboardView> {
                         borderRadius: BorderRadius.circular(100),
                         child: Image.memory(base64Decode(user.image ?? '')),
                       ),
-                      title: Text(user.name ?? ''),
-                      // subtitle: Text("Rating: ${user.rating}"),
+                      title: Text('ID: ' +
+                          user.id.toString() +
+                          " " +
+                          user.name.toString()),
+                      subtitle: Text('Rating: ' + user.elo.toString()),
                     ),
                   );
                 },

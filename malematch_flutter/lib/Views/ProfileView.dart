@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:malematch_flutter/Models/User.dart';
+import '../Services/UserService.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -7,6 +9,13 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   // Add your variables and methods here
+  late Future<List<User>> futureUsers;
+
+  @override
+  void initState() {
+    super.initState();
+    futureUsers = UserService.fetchUsersToRate();
+  }
 
   @override
   Widget build(BuildContext context) {
