@@ -5,6 +5,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Malemash')
     .setDescription('The Malemash API description')

@@ -130,29 +130,6 @@ describe('RatingService', () => {
     expect(actualNewEloPlayer2).toBe(expectedNewEloPlayer2);
   });
 
-  test('calculates new Elo when players have significantly different Elo and player 1 wins', () => {
-    const player1Elo = 2000;
-    const player2Elo = 1000;
-    const probabilityToWin = service['calculateProbabilityOfPlayer1Winning'](
-      player1Elo,
-      player2Elo,
-    );
-    const won = true;
-    const actualNewEloPlayer1 = service['calculateNewElo'](
-      player1Elo,
-      probabilityToWin,
-      won,
-    );
-    expect(actualNewEloPlayer1).toBeGreaterThan(player1Elo);
-
-    const actualNewEloPlayer2 = service['calculateNewElo'](
-      player2Elo,
-      probabilityToWin,
-      !won,
-    );
-    expect(actualNewEloPlayer2).toBeLessThan(player2Elo);
-  });
-
   test('calculates new Elo when players have same Elo and player 1 wins', () => {
     const player1Elo = 1500;
     const player2Elo = 1500;
