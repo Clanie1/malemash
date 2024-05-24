@@ -48,12 +48,12 @@ export class RatingService {
     );
     const newElo2 = this.calculateNewElo(
       user2.elo,
-      1 - probabilityToWin,
+      probabilityToWin,
       rating.whoWonId == rating.user2Id,
     );
 
-    this.userService.updateUserRating(user1.id, newElo1);
-    this.userService.updateUserRating(user2.id, newElo2);
+    await this.userService.updateUserRating(user1.id, newElo1);
+    await this.userService.updateUserRating(user2.id, newElo2);
   }
 
   private calculateNewElo(
