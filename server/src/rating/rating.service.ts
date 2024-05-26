@@ -20,6 +20,7 @@ export class RatingService {
     return this.prisma.rating.findMany({
       take: 10,
       orderBy: { createdAt: 'desc' },
+      include: { user1: true, user2: true },
     });
   }
 

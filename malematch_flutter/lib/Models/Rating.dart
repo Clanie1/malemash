@@ -29,13 +29,12 @@ class Rating {
     return Rating(
       id: json['id'],
       createdAt: DateTime.parse(json['createdAt']),
-      author: User.fromJson(json['author']),
+      // author: User.fromJson(json['author']),
       authorId: json['authorId'],
       user1: User.fromJson(json['user1']),
       user1Id: json['user1Id'],
       user2: User.fromJson(json['user2']),
       user2Id: json['user2Id'],
-      whoWon: User.fromJson(json['whoWon']),
       whoWonId: json['whoWonId'],
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../Models/User.dart';
+import '../Models/Rating.dart';
 
 class UserService {
   static const String url = 'http://localhost:3000/user/top';
@@ -43,7 +44,6 @@ class UserService {
     var response = await http.post(headers: {
       'Content-Type': 'application/json',
     }, Uri.parse(url3), body: requestBody);
-    print(response.statusCode);
     if (response.statusCode > 199 && response.statusCode < 300) {
       return response.body;
     } else {
@@ -58,6 +58,19 @@ class UserService {
       return User.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load user');
+    }
+  }
+
+  static Future<List<Rating>> fetchRatingsByUserId() async {
+    final response =
+        await http.get(Uri.parse('http://localhost:3000/rating/latest'));
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      List<Rating> ratings =
+          body.map((dynamic item) => Rating.fromJson(item)).toList();
+      return ratings;
+    } else {
+      throw Exception('Failed to load ratings');
     }
   }
 }

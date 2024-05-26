@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:malematch_flutter/Models/User.dart';
 import 'dart:convert';
 import '../Services/UserService.dart';
@@ -20,7 +19,6 @@ class _LeaderboardViewState extends State<LeaderboardView> {
     leaderboardData = UserService.fetchTopUsers();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<User>>(
