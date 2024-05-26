@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import '../Models/User.dart';
+import '../Services/UserService.dart';
 
 class RatingView extends StatefulWidget {
   @override
@@ -6,66 +9,104 @@ class RatingView extends StatefulWidget {
 }
 
 class _RatingViewState extends State<RatingView> {
+  late Future<List<User>> usersToRate;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsersToRate();
+  }
+
+  void handleRating(User user) async {
+    try {
+      final users = await usersToRate;
+      await UserService.rateUsers(users[0].id, users[1].id, user.id);
+      await fetchUsersToRate();
+    } catch (e) {
+      print('Error rating users: $e');
+    }
+  }
+
+  Future<void> fetchUsersToRate() async {
+    return setState(() {
+      usersToRate = UserService.fetchUsersToRate();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Rating View 2'),
-      // ),
       body: Center(
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceEvenly, // Add spacing between elements
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
+        child: FutureBuilder<List<User>>(
+          future: usersToRate,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<User> users = snapshot.data!;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => handleRating(users[0]),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.memory(
+                          base64Decode(users[0].image ?? ''),
+                          fit: BoxFit.cover,
+                          width: 300,
+                          height: 300,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "VS",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  GestureDetector(
+                    onTap: () => handleRating(users[1]),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.memory(
+                          base64Decode(users[1].image ?? ''),
+                          fit: BoxFit.cover,
+                          width: 300,
+                          height: 300,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  'https://media.licdn.com/dms/image/D5603AQFmH4WZgKO7yw/profile-displayphoto-shrink_800_800/0/1674516297228?e=2147483647&v=beta&t=NUMzuaY5RSKJhlLKnI1NNFut3owgux9Ty_M7uFatEc0',
-                  fit: BoxFit.cover,
-                  width: 300,
-                  height: 300,
-                ),
-              ),
-            ),
-            Text(
-              "VS",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  'https://media.licdn.com/dms/image/C4D03AQGIykPZM9bVUg/profile-displayphoto-shrink_200_200/0/1652808133533?e=2147483647&v=beta&t=3hvZ8AGReArg4dJKg5W6psFoSx1gkItyz5oOQnsW4bs',
-                  fit: BoxFit.cover,
-                  width: 300,
-                  height: 300,
-                ),
-              ),
-            ),
-          ],
+              );
+            } else if (snapshot.hasError) {
+              return Text("Error: ${snapshot.error}");
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
         ),
       ),
     );
